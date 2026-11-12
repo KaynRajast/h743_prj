@@ -37,13 +37,10 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-QueueHandle_t uartQueue = NULL;
-TaskHandle_t ledTaskHandle = NULL;
-uint8_t rx_buffer;
+volatile uint32_t ulHighFrequencyTimerTicks = 0;
+// 用于故意制造死机的指针
+volatile uint32_t *pFaultAddress = NULL;
 
-
-void ledTask(void *Parameters);
-void uartTask(void *Parameters);
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -67,6 +64,9 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName);
+void Task_StackOverflow(void *pvParameters);
+void Task_Monitor(void *pvParameters);
 
 /* USER CODE END PFP */
 
@@ -111,11 +111,13 @@ int main(void)
   MX_USART2_UART_Init();
   MX_LPTIM1_Init();
   /* USER CODE BEGIN 2 */
-  // 确保初始状态为停止
-  HAL_LPTIM_TimeOut_Stop_IT(&hlptim1);
+  // 启动tim6中断
+  HAL_TIM_Base_Start_IT(&htim6);
   
-  xTaskCreate(LedTask, "LedTask", 128, NULL, 2, NULL);
-  xTaskCreate(prtTask, "prtTask", 128, NULL, 2, NULL);
+  // 创建监控任务
+  xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 2, NULL);
+  // 创建栈溢出任务
+  xTaskCreate(Task_StackOverflow, "StackOvf", 32, NULL, 1, NULL);
 
   /* USER CODE END 2 */
 
@@ -135,9 +137,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // HAL_UART_Transmit(&huart2, msg, sizeof(msg) - 1, 100);
-    // HAL_Delay(1000);
-    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   }
   /* USER CODE END 3 */
 }
@@ -218,102 +217,53 @@ int fputc(int ch, FILE *f)
 }
 #endif
 
-/* 串口接收中断回调函数 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+/* 栈溢出钩子函数 */
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
-  if (huart->Instance == USART2)
-  {
-    BaseType_t xHPTW = pdFALSE;
-    // 把收到的字符塞进队列
-    xQueueSendFromISR(uartQueue, &rx_buffer, &xHPTW);
-    /* 重新开启中断接收 */
-    HAL_UART_Receive_IT(&huart2, &rx_buffer, 1);
-    // 中断退出前触发任务切换
-    portYIELD_FROM_ISR(xHPTW);
-  }
+  // 此时cpu处于临界区，直接打印或者死循环调试
+  printf("\r\n[HARD FAULT] Stack Overflow Detected in Task: %s !!!\r\n", pcTaskName);
+  __disable_irq();
+
+  /* 发生栈溢出时，应保留while循环，在有看门狗的情况下，使系统复位 */
+  while (1);
 }
 
-/* 串口指令解析任务 */
-void uartTask(void *Parameters)
+/* cpu利用率与状态统计任务 */
+void Task_Monitor(void *pvParameters)
 {
-  char cmd_buffer[32] = {0};
-  uint8_t rx_char;
-  uint32_t index = 0;
+  // 用于存放统计字符串的缓冲区
+  char cpu_status_buffer[512];
 
   for (;;)
   {
-    // 等串口有数据
-    if (xQueueReceive(uartQueue, &rx_char, portMAX_DELAY) == pdPASS)
-    {
-      // 遇见换行符，认为一帧结束
-      if (rx_char == '\n' || rx_char == '\r')
-      {
-        // 排除连续敲回车出现的空指令
-        if (index > 0)
-        {
-          cmd_buffer[index] = '\0';
+    // 5s统计一次
+    vTaskDelay(pdMS_TO_TICKS(5000));
+    printf("\r\n============= CPU Utolization & Task Stats ==============\r\n");
 
-          // 1.开灯
-          if (strstr(cmd_buffer, "LED_ON") != NULL)
-          {
-            // 发送任务通知，值为1表示开启
-            xTaskNotify(ledTaskHandle, 1, eSetValueWithoutOverwrite);
-            printf("[INFO]LED is ON\r\n");
-          }
-          // 2.关灯
-          else if (strstr(cmd_buffer, "LED_OFF") != NULL)
-          {
-            // 发送任务通知，值为0表示关闭
-            xTaskNotify(ledTaskHandle, 0, eSetValueWithoutOverwrite);
-            printf("[INFO]LED is OFF\r\n");
-          }
-          else
-          {
-            printf("[ERROR]Unknown cmd: %s\r\n", cmd_buffer);
-          }
-
-        }
-
-        // 状态机复位，准备下一次接收
-        index = 0;
-        memset(cmd_buffer, 0, sizeof(cmd_buffer));
-      }
-      // 普通字符
-      else
-      {
-        if (index < sizeof(cmd_buffer) - 1)
-        {
-          cmd_buffer[index++] = rx_char;
-        }
-      }
-    }
+    vTaskGetRunTimeStats(cpu_status_buffer);
+    
+    printf("%s\r\n", cpu_status_buffer);
+    
+    // 小测试：如果想测试 HardFault 打印，可以解开下面这两行的注释
+    // pFaultAddress = (uint32_t *)0xFFFFFFF0; // 访问非法地址
+    // *pFaultAddress = 1; // 触发 HardFault
   }
 }
 
-#if 0
-void ledTask(void *Parameters)
+/* 爆栈任务 */
+void Task_StackOverflow(void *pvParameters)
 {
-  /* 初始化LED */
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+  // 定义一个大于给定栈大小的数组
+  /* 如果数组大小远超给定的栈大小，则会触发hardfault_handler中断 */
+  volatile char huge_arr[64] = {0};
 
   for (;;)
   {
-    uint32_t notificationValue = 0;
-    // 等待任务通知，退出时清空通知
-    if (xTaskNotifyWait(0x00, 0xFFFFFFFF, &notificationValue, portMAX_DELAY) == pdPASS)
-    {
-      if (notificationValue == 1)
-      {
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-      }
-      else if (notificationValue == 0)
-      {
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-      }
-    }
+    huge_arr[0] = 1;
+    vTaskDelay(pdMS_TO_TICKS(1000));
   }
 }
-#endif
+
 /* USER CODE END 4 */
 
  /* MPU Configuration */
@@ -358,11 +308,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
   if (htim->Instance == TIM6)
   {
-    // BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-    // vTaskNotifyGiveFromISR(ledTaskHandle, &xHigherPriorityTaskWoken);
-
-    // portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    // 每次中断+1,freertos会在任务切换时读取这个值
+    ulHighFrequencyTimerTicks++;
   }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7)

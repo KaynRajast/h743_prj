@@ -3477,6 +3477,7 @@ static portTASK_FUNCTION( prvIdleTask, pvParameters )
 					be used. */
 					configASSERT( xNextTaskUnblockTime >= xTickCount );
 					xExpectedIdleTime = prvGetExpectedIdleTime();
+
 					/* Define the following macro to set xExpectedIdleTime to 0
 					if the application does not want
 					portSUPPRESS_TICKS_AND_SLEEP() to be called. */
