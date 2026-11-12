@@ -1,3 +1,11 @@
+/*
+ * @Author: zhengyj 1814634121@qq.com
+ * @Date: 2026-11-11 10:43:01
+ * @LastEditors: zhengyj 1814634121@qq.com
+ * @LastEditTime: 2026-11-12 14:46:52
+ * @FilePath: \h743_prj\Core\Inc\stm32h7xx_it.h
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -47,7 +55,7 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void NMI_Handler(void);
-void HardFault_Handler(void);
+// void HardFault_Handler(void);
 void MemManage_Handler(void);
 void BusFault_Handler(void);
 void UsageFault_Handler(void);

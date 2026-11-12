@@ -33,6 +33,7 @@
 #include "stdio.h"
 #include "timers.h"
 #include "test_api.h"
+#include "cm_backtrace.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -111,13 +112,14 @@ int main(void)
   MX_USART2_UART_Init();
   MX_LPTIM1_Init();
   /* USER CODE BEGIN 2 */
+  // 初始化cmbacktrace
+  cm_backtrace_init("h743_prj", "v1.0", "v1011");
+  
   // 启动tim6中断
   HAL_TIM_Base_Start_IT(&htim6);
   
   // 创建监控任务
   xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 2, NULL);
-  // 创建栈溢出任务
-  xTaskCreate(Task_StackOverflow, "StackOvf", 32, NULL, 1, NULL);
 
   /* USER CODE END 2 */
 
@@ -221,8 +223,8 @@ int fputc(int ch, FILE *f)
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
   // 此时cpu处于临界区，直接打印或者死循环调试
-  printf("\r\n[HARD FAULT] Stack Overflow Detected in Task: %s !!!\r\n", pcTaskName);
-  __disable_irq();
+  volatile char *pName = pcTaskName;
+  (void)pName;
 
   /* 发生栈溢出时，应保留while循环，在有看门狗的情况下，使系统复位 */
   while (1);
@@ -233,34 +235,19 @@ void Task_Monitor(void *pvParameters)
 {
   // 用于存放统计字符串的缓冲区
   char cpu_status_buffer[512];
+  // 定义一个空指针
+  uint32_t *pNullPointer = (uint32_t*)(0xFFFFFFF4);
 
   for (;;)
   {
     // 5s统计一次
-    vTaskDelay(pdMS_TO_TICKS(5000));
+    vTaskDelay(pdMS_TO_TICKS(3000));
     printf("\r\n============= CPU Utolization & Task Stats ==============\r\n");
-
     vTaskGetRunTimeStats(cpu_status_buffer);
-    
     printf("%s\r\n", cpu_status_buffer);
     
-    // 小测试：如果想测试 HardFault 打印，可以解开下面这两行的注释
-    // pFaultAddress = (uint32_t *)0xFFFFFFF0; // 访问非法地址
-    // *pFaultAddress = 1; // 触发 HardFault
-  }
-}
-
-/* 爆栈任务 */
-void Task_StackOverflow(void *pvParameters)
-{
-  // 定义一个大于给定栈大小的数组
-  /* 如果数组大小远超给定的栈大小，则会触发hardfault_handler中断 */
-  volatile char huge_arr[64] = {0};
-
-  for (;;)
-  {
-    huge_arr[0] = 1;
-    vTaskDelay(pdMS_TO_TICKS(1000));
+    printf("\r\n[WARN] Crashing due to null pointer...\r\n");
+    *pNullPointer = 0x12345678;
   }
 }
 

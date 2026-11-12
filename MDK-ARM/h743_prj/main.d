@@ -58,3 +58,7 @@ h743_prj\main.o: ../Core/Inc/gpio.h
 h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
 h743_prj\main.o: ../Core/Inc/test_api.h
+h743_prj\main.o: ..\cm_backtrace\cm_backtrace.h
+h743_prj\main.o: ..\cm_backtrace\cmb_def.h
+h743_prj\main.o: ..\cm_backtrace\cmb_cfg.h
+h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h

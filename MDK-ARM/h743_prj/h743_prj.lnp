@@ -42,6 +42,8 @@
 "h743_prj\cmsis_os.o"
 "h743_prj\heap_4.o"
 "h743_prj\port.o"
+"h743_prj\cm_backtrace.o"
+"h743_prj\cmb_fault.o"
 --library_type=microlib --strict --scatter "h743_prj\h743_prj.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
