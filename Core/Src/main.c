@@ -34,19 +34,23 @@
 #include "timers.h"
 #include "test_api.h"
 #include "cm_backtrace.h"
+#include "event_groups.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-volatile uint32_t ulHighFrequencyTimerTicks = 0;
-// 用于故意制造死机的指针
-volatile uint32_t *pFaultAddress = NULL;
-
+// 定义事件位
+#define EVENT_BIT_DATA_READY    (1 << 0)    // 传感器数据就绪
+#define EVENT_BIT_TX_ENABLE     (1 << 1)    // 允许发送
+#define EEVNT_BIT_EMERGENCY      (1 << 2)    // 紧急报警
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+// 事件标志组句柄
+EventGroupHandle_t xSensorEventGroup;
+// 串口接收缓存
+uint8_t rx_byte;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -65,8 +69,8 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName);
-void Task_StackOverflow(void *pvParameters);
+void Task_DataUpload(void *pvParameters);
+void Task_Emergency(void *pvParameters);
 void Task_Monitor(void *pvParameters);
 
 /* USER CODE END PFP */
@@ -114,13 +118,21 @@ int main(void)
   /* USER CODE BEGIN 2 */
   // 初始化cmbacktrace
   cm_backtrace_init("h743_prj", "v1.0", "v1011");
-  
-  // 启动tim6中断
-  HAL_TIM_Base_Start_IT(&htim6);
-  
-  // 创建监控任务
-  xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 2, NULL);
 
+  xSensorEventGroup = xEventGroupCreate();
+  if (xSensorEventGroup != NULL)
+  {
+    xTaskCreate(Task_Emergency, "Emergency", 256, NULL, 3, NULL);
+    xTaskCreate(Task_DataUpload, "DataUp", 512, NULL, 2, NULL);
+    xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 1, NULL);
+
+    // 启动tim6中断
+    HAL_TIM_Base_Start_IT(&htim6);
+    // 启动串口接收
+    HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
+
+  }
+  
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
@@ -219,35 +231,80 @@ int fputc(int ch, FILE *f)
 }
 #endif
 
-/* 栈溢出钩子函数 */
-void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+// 串口中断回调函数
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-  // 此时cpu处于临界区，直接打印或者死循环调试
-  volatile char *pName = pcTaskName;
-  (void)pName;
+  if (huart->Instance == USART2)
+  {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    // 收到A置位bit0和1
+    if (rx_byte == 'A')
+    {
+      xEventGroupSetBitsFromISR(xSensorEventGroup, EVENT_BIT_DATA_READY | EVENT_BIT_TX_ENABLE, &xHigherPriorityTaskWoken);      
+    }
+    // 收到e，置位bit2
+    else if (rx_byte == 'E')
+    {
+      xEventGroupSetBitsFromISR(xSensorEventGroup, EEVNT_BIT_EMERGENCY, &xHigherPriorityTaskWoken);
+    }
 
-  /* 发生栈溢出时，应保留while循环，在有看门狗的情况下，使系统复位 */
-  while (1);
+    // 重启串口中断接收
+    HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
+  }
 }
 
-/* cpu利用率与状态统计任务 */
+/* 数据上传任务 */
+void Task_DataUpload(void *pvParameters)
+{
+  EventBits_t uxBits;
+
+  for (;;)
+  {
+    uxBits = xEventGroupWaitBits(
+      xSensorEventGroup,
+      EVENT_BIT_DATA_READY | EVENT_BIT_TX_ENABLE,
+      pdTRUE,
+      pdTRUE,
+      portMAX_DELAY);
+
+    printf("[DataUpload] uxBits:0x%x...\r\n", uxBits);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  }
+}
+
+/* 紧急任务执行 */
+void Task_Emergency(void *pvParameters)
+{
+  EventBits_t uxBits;
+  for(;;)
+  {
+      uxBits = xEventGroupWaitBits(
+      xSensorEventGroup,
+      EEVNT_BIT_EMERGENCY,
+      pdTRUE,
+      pdFALSE,
+      portMAX_DELAY);
+
+    if ((uxBits & EEVNT_BIT_EMERGENCY) != 0)
+    {
+      printf("Emergency!\r\n");
+    }
+  }
+}
+
+
+/* 后台监控 */
 void Task_Monitor(void *pvParameters)
 {
-  // 用于存放统计字符串的缓冲区
-  char cpu_status_buffer[512];
-  // 定义一个空指针
-  uint32_t *pNullPointer = (uint32_t*)(0xFFFFFFF4);
 
   for (;;)
   {
     // 5s统计一次
     vTaskDelay(pdMS_TO_TICKS(3000));
-    printf("\r\n============= CPU Utolization & Task Stats ==============\r\n");
-    vTaskGetRunTimeStats(cpu_status_buffer);
-    printf("%s\r\n", cpu_status_buffer);
-    
-    printf("\r\n[WARN] Crashing due to null pointer...\r\n");
-    *pNullPointer = 0x12345678;
+    EventBits_t currentBits = xEventGroupGetBits(xSensorEventGroup);
+    printf("[Monitor] currentBits: 0x%x\r\n", currentBits);
   }
 }
 
@@ -295,8 +352,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
   if (htim->Instance == TIM6)
   {
-    // 每次中断+1,freertos会在任务切换时读取这个值
-    ulHighFrequencyTimerTicks++;
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xEventGroupSetBitsFromISR(xSensorEventGroup, EVENT_BIT_DATA_READY, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
   }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7)

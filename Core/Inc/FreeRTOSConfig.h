@@ -143,18 +143,19 @@ standard names. */
 
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 /* 1. 开启栈溢出检测（方法2：在栈顶和栈底填充魔术数字，最耗一点点时间，但最精确） */
-#define configCHECK_FOR_STACK_OVERFLOW       2
+// #define configCHECK_FOR_STACK_OVERFLOW       2
 
-/* 2. 开启运行时间统计（用于计算 CPU 利用率） */
-#define configGENERATE_RUN_TIME_STATS        1
-#define configUSE_STATS_FORMATTING_FUNCTIONS 1
+// /* 2. 开启运行时间统计（用于计算 CPU 利用率） */
+// #define configGENERATE_RUN_TIME_STATS        1
+// #define configUSE_STATS_FORMATTING_FUNCTIONS 1
 
 /* 3. 声明统计时间所需的底层函数和变量 */
-extern volatile uint32_t ulHighFrequencyTimerTicks;
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()  (ulHighFrequencyTimerTicks = 0)
-#define portGET_RUN_TIME_COUNTER_VALUE()          ulHighFrequencyTimerTicks
+// extern volatile uint32_t ulHighFrequencyTimerTicks;
+// #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()  (ulHighFrequencyTimerTicks = 0)
+// #define portGET_RUN_TIME_COUNTER_VALUE()          ulHighFrequencyTimerTicks
 
 #define configUSE_TRACE_FACILITY 1
+#define INCLUDE_xTimerPendFunctionCall 1
 
 /* USER CODE END Defines */
 

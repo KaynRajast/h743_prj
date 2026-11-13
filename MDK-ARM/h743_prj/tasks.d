@@ -14,4 +14,3 @@ h743_prj\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 h743_prj\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 h743_prj\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 h743_prj\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h
-h743_prj\tasks.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
