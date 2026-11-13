@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "iwdg.h"
 #include "lptim.h"
 #include "tim.h"
 #include "usart.h"
@@ -40,9 +41,11 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 // 定义事件位
-#define EVENT_BIT_DATA_READY    (1 << 0)    // 传感器数据就绪
-#define EVENT_BIT_TX_ENABLE     (1 << 1)    // 允许发送
-#define EEVNT_BIT_EMERGENCY      (1 << 2)    // 紧急报警
+#define BIT_TASK_1_DONE      (1 << 0)    // 
+#define BIT_TASK_2_DONE      (1 << 1)    // 
+#define BIT_TASK_3_DONE      (1 << 2)    // 
+
+#define BIT_TASK_ALL_DONE    (BIT_TASK_1_DONE | BIT_TASK_2_DONE | BIT_TASK_3_DONE)
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -69,8 +72,9 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-void Task_DataUpload(void *pvParameters);
-void Task_Emergency(void *pvParameters);
+void Task_1(void *pvParameters);
+void Task_2(void *pvParameters);
+void Task_3(void *pvParameters);
 void Task_Monitor(void *pvParameters);
 
 /* USER CODE END PFP */
@@ -115,21 +119,26 @@ int main(void)
   MX_TIM6_Init();
   MX_USART2_UART_Init();
   MX_LPTIM1_Init();
+  MX_IWDG1_Init();
   /* USER CODE BEGIN 2 */
   // 初始化cmbacktrace
   cm_backtrace_init("h743_prj", "v1.0", "v1011");
+  printf("System init done\r\n");
+
+  HAL_IWDG_Refresh(&hiwdg1);
 
   xSensorEventGroup = xEventGroupCreate();
   if (xSensorEventGroup != NULL)
   {
-    xTaskCreate(Task_Emergency, "Emergency", 256, NULL, 3, NULL);
-    xTaskCreate(Task_DataUpload, "DataUp", 512, NULL, 2, NULL);
-    xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 1, NULL);
+    xTaskCreate(Task_1, "Task_1", 256, NULL, 1, NULL);
+    xTaskCreate(Task_2, "Task_2", 256, NULL, 1, NULL);
+    xTaskCreate(Task_3, "Task_3", 256, NULL, 1, NULL);
+    xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 2, NULL);
 
     // 启动tim6中断
-    HAL_TIM_Base_Start_IT(&htim6);
+    // HAL_TIM_Base_Start_IT(&htim6);
     // 启动串口接收
-    HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
+    // HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
 
   }
   
@@ -226,7 +235,8 @@ int __io_putchar(int ch)
 #else
 int fputc(int ch, FILE *f)
 {
-  HAL_UART_Transmit(&huart2, (uint8_t*)&ch, 1, 100);
+  while ((USART2->ISR & USART_ISR_TXE_TXFNF) == 0);
+  USART2->TDR = (uint8_t)ch;
   return ch;
 }
 #endif
@@ -236,75 +246,76 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   if (huart->Instance == USART2)
   {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    // 收到A置位bit0和1
-    if (rx_byte == 'A')
-    {
-      xEventGroupSetBitsFromISR(xSensorEventGroup, EVENT_BIT_DATA_READY | EVENT_BIT_TX_ENABLE, &xHigherPriorityTaskWoken);      
-    }
-    // 收到e，置位bit2
-    else if (rx_byte == 'E')
-    {
-      xEventGroupSetBitsFromISR(xSensorEventGroup, EEVNT_BIT_EMERGENCY, &xHigherPriorityTaskWoken);
-    }
-
-    // 重启串口中断接收
-    HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 
   }
 }
 
-/* 数据上传任务 */
-void Task_DataUpload(void *pvParameters)
+/*  */
+void Task_1(void *pvParameters)
 {
-  EventBits_t uxBits;
 
   for (;;)
   {
-    uxBits = xEventGroupWaitBits(
-      xSensorEventGroup,
-      EVENT_BIT_DATA_READY | EVENT_BIT_TX_ENABLE,
-      pdTRUE,
-      pdTRUE,
-      portMAX_DELAY);
-
-    printf("[DataUpload] uxBits:0x%x...\r\n", uxBits);
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    vTaskDelay(1000);
+    xEventGroupSetBits(xSensorEventGroup, BIT_TASK_1_DONE);
   }
 }
 
-/* 紧急任务执行 */
-void Task_Emergency(void *pvParameters)
+/*  */
+void Task_2(void *pvParameters)
 {
-  EventBits_t uxBits;
   for(;;)
   {
-      uxBits = xEventGroupWaitBits(
-      xSensorEventGroup,
-      EEVNT_BIT_EMERGENCY,
-      pdTRUE,
-      pdFALSE,
-      portMAX_DELAY);
-
-    if ((uxBits & EEVNT_BIT_EMERGENCY) != 0)
-    {
-      printf("Emergency!\r\n");
-    }
+    vTaskDelay(1500);
+    xEventGroupSetBits(xSensorEventGroup, BIT_TASK_2_DONE);
   }
 }
 
 
-/* 后台监控 */
-void Task_Monitor(void *pvParameters)
+/* 制造卡死任务 */
+void Task_3(void *pvParameters)
 {
 
   for (;;)
   {
-    // 5s统计一次
-    vTaskDelay(pdMS_TO_TICKS(3000));
-    EventBits_t currentBits = xEventGroupGetBits(xSensorEventGroup);
-    printf("[Monitor] currentBits: 0x%x\r\n", currentBits);
+    if ((USART2->ISR & USART_ISR_RXNE_RXFNE) != 0)
+    {
+      char cmd = USART2->RDR;
+      if (cmd == 'K')
+      {
+        printf("[ERROR] Task 3 Crashed\r\n");
+        while (1);
+      }
+    }
+
+    vTaskDelay(pdMS_TO_TICKS(500));
+    xEventGroupSetBits(xSensorEventGroup, BIT_TASK_3_DONE);
+  }
+}
+
+/* 监控任务 */
+void Task_Monitor(void *pvParameters)
+{
+  EventBits_t uBits = 0;
+  
+  for (;;)
+  {
+    uBits = xEventGroupWaitBits(
+      xSensorEventGroup,
+      BIT_TASK_ALL_DONE,
+      pdTRUE,
+      pdTRUE,
+      pdMS_TO_TICKS(3000));
+    
+    if ((uBits & BIT_TASK_ALL_DONE) == BIT_TASK_ALL_DONE)
+    {
+      HAL_IWDG_Refresh(&hiwdg1);
+      printf("wdg ok\r\n");
+    }
+    else
+    {
+      printf("wdg overtime\r\n");
+    }
   }
 }
 
@@ -352,9 +363,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
   if (htim->Instance == TIM6)
   {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    xEventGroupSetBitsFromISR(xSensorEventGroup, EVENT_BIT_DATA_READY, &xHigherPriorityTaskWoken);
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    
   }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7)

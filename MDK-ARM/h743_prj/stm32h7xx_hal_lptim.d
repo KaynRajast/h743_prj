@@ -29,6 +29,7 @@ h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ha
 h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hsem.h
 h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c.h
 h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c_ex.h
+h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_iwdg.h
 h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_lptim.h
 h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h
 h743_prj\stm32h7xx_hal_lptim.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h

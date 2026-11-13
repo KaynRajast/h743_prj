@@ -30,6 +30,7 @@ h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash_ex.h
 h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hsem.h
 h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c.h
 h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c_ex.h
+h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_iwdg.h
 h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_lptim.h
 h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h
 h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
@@ -51,6 +52,7 @@ h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+h743_prj\main.o: ../Core/Inc/iwdg.h
 h743_prj\main.o: ../Core/Inc/lptim.h
 h743_prj\main.o: ../Core/Inc/tim.h
 h743_prj\main.o: ../Core/Inc/usart.h
@@ -58,7 +60,7 @@ h743_prj\main.o: ../Core/Inc/gpio.h
 h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
 h743_prj\main.o: ../Core/Inc/test_api.h
-h743_prj\main.o: ..\cm_backtrace\cm_backtrace.h
-h743_prj\main.o: ..\cm_backtrace\cmb_def.h
-h743_prj\main.o: ..\cm_backtrace\cmb_cfg.h
+h743_prj\main.o: ../cm_backtrace/cm_backtrace.h
+h743_prj\main.o: ../cm_backtrace/cmb_def.h
+h743_prj\main.o: ../cm_backtrace/cmb_cfg.h
 h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
