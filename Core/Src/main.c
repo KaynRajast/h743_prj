@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "dma.h"
 #include "iwdg.h"
 #include "lptim.h"
 #include "tim.h"
@@ -36,24 +37,21 @@
 #include "test_api.h"
 #include "cm_backtrace.h"
 #include "event_groups.h"
+#include "stream_buffer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-// 定义事件位
-#define BIT_TASK_1_DONE      (1 << 0)    // 
-#define BIT_TASK_2_DONE      (1 << 1)    // 
-#define BIT_TASK_3_DONE      (1 << 2)    // 
-
-#define BIT_TASK_ALL_DONE    (BIT_TASK_1_DONE | BIT_TASK_2_DONE | BIT_TASK_3_DONE)
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-// 事件标志组句柄
-EventGroupHandle_t xSensorEventGroup;
-// 串口接收缓存
-uint8_t rx_byte;
+// 定义缓冲区句柄
+StreamBufferHandle_t xUartStreamBuffer;
+// dma接收缓存
+#define UART_RX_BUFF_SIZE    256
+uint8_t rx_buffer[UART_RX_BUFF_SIZE] /* __attribute__((section(".RAM_D2"))) */;
+extern DMA_HandleTypeDef hdma_usart2_rx;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -72,10 +70,7 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-void Task_1(void *pvParameters);
-void Task_2(void *pvParameters);
-void Task_3(void *pvParameters);
-void Task_Monitor(void *pvParameters);
+void Task_UartProcess(void *pvParameters);
 
 /* USER CODE END PFP */
 
@@ -116,32 +111,29 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_TIM6_Init();
   MX_USART2_UART_Init();
   MX_LPTIM1_Init();
-  MX_IWDG1_Init();
+  // MX_IWDG1_Init();
   /* USER CODE BEGIN 2 */
   // 初始化cmbacktrace
   cm_backtrace_init("h743_prj", "v1.0", "v1011");
-  printf("System init done\r\n");
 
-  HAL_IWDG_Refresh(&hiwdg1);
+  printf("System power on\r\n");
 
-  xSensorEventGroup = xEventGroupCreate();
-  if (xSensorEventGroup != NULL)
+  /* 创建缓冲区 */
+  xUartStreamBuffer = xStreamBufferCreate(512, 1);
+
+  if (xUartStreamBuffer != NULL)
   {
-    xTaskCreate(Task_1, "Task_1", 256, NULL, 1, NULL);
-    xTaskCreate(Task_2, "Task_2", 256, NULL, 1, NULL);
-    xTaskCreate(Task_3, "Task_3", 256, NULL, 1, NULL);
-    xTaskCreate(Task_Monitor, "Monitor", 512, NULL, 2, NULL);
+    xTaskCreate(Task_UartProcess, "uartpro", 512, NULL, 2, NULL);
 
-    // 启动tim6中断
-    // HAL_TIM_Base_Start_IT(&htim6);
-    // 启动串口接收
-    // HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
-
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, rx_buffer, UART_RX_BUFF_SIZE);
+    __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
   }
-  
+
+
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
@@ -242,82 +234,54 @@ int fputc(int ch, FILE *f)
 #endif
 
 // 串口中断回调函数
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
+  static uint16_t last_pos = 0;
+
   if (huart->Instance == USART2)
   {
+    BaseType_t res = pdFALSE;
 
-  }
-}
-
-/*  */
-void Task_1(void *pvParameters)
-{
-
-  for (;;)
-  {
-    vTaskDelay(1000);
-    xEventGroupSetBits(xSensorEventGroup, BIT_TASK_1_DONE);
-  }
-}
-
-/*  */
-void Task_2(void *pvParameters)
-{
-  for(;;)
-  {
-    vTaskDelay(1500);
-    xEventGroupSetBits(xSensorEventGroup, BIT_TASK_2_DONE);
-  }
-}
-
-
-/* 制造卡死任务 */
-void Task_3(void *pvParameters)
-{
-
-  for (;;)
-  {
-    if ((USART2->ISR & USART_ISR_RXNE_RXFNE) != 0)
-    {
-      char cmd = USART2->RDR;
-      if (cmd == 'K')
-      {
-        printf("[ERROR] Task 3 Crashed\r\n");
-        while (1);
-      }
-    }
-
-    vTaskDelay(pdMS_TO_TICKS(500));
-    xEventGroupSetBits(xSensorEventGroup, BIT_TASK_3_DONE);
-  }
-}
-
-/* 监控任务 */
-void Task_Monitor(void *pvParameters)
-{
-  EventBits_t uBits = 0;
-  
-  for (;;)
-  {
-    uBits = xEventGroupWaitBits(
-      xSensorEventGroup,
-      BIT_TASK_ALL_DONE,
-      pdTRUE,
-      pdTRUE,
-      pdMS_TO_TICKS(3000));
+    uint16_t pos = (Size == UART_RX_BUFF_SIZE) ? 0U : Size;
+    uint16_t len;
     
-    if ((uBits & BIT_TASK_ALL_DONE) == BIT_TASK_ALL_DONE)
+    if (pos >= last_pos) len = pos - last_pos;
+    else len = UART_RX_BUFF_SIZE - last_pos + pos;
+
+    if (len > 0)
     {
-      HAL_IWDG_Refresh(&hiwdg1);
-      printf("wdg ok\r\n");
+      /* SCB_InvalidateDCache_by_Addr((uint32_t*)rx_buffer, UART_RX_BUFF_SIZE); */
+      xStreamBufferSendFromISR(xUartStreamBuffer, &rx_buffer[last_pos], len, &res);
     }
-    else
+
+    last_pos = pos;
+    // /* 开启下一次接收 */
+    // HAL_UARTEx_ReceiveToIdle_DMA(&huart2, rx_buffer, UART_RX_BUFF_SIZE);
+    // /* 关闭半中断 */
+    // __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
+
+    portYIELD_FROM_ISR(res);
+  }
+}
+
+/* 处理串口任务 */
+void Task_UartProcess(void *pvParameters)
+{
+
+  uint8_t process_buffer[256];
+  size_t rx_bytes;
+
+  for (;;)
+  {
+    rx_bytes = xStreamBufferReceive(xUartStreamBuffer, process_buffer, sizeof(process_buffer) - 1, portMAX_DELAY);
+    if (rx_bytes > 0)
     {
-      printf("wdg overtime\r\n");
+      process_buffer[rx_bytes] = '\0';
+      printf("rxbyte: %d: %s\r\n", rx_bytes, process_buffer);
     }
   }
 }
+
 
 /* USER CODE END 4 */
 

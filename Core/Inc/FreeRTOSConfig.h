@@ -141,6 +141,16 @@ standard names. */
 
 /* USER CODE BEGIN Defines */
 
+#define traceISR_ENTER()
+#define traceISR_EXIT()
+#define traceISR_EXIT_TO_SCHEDULER()
+
+#define TICK_TYPE_WIDTH_16_BITS   0
+#define TICK_TYPE_WIDTH_32_BITS   1
+#define TICK_TYPE_WIDTH_64_BITS   2
+
+#define configTICK_TYPE_WIDTH_IN_BITS TICK_TYPE_WIDTH_32_BITS
+
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 /* 1. 开启栈溢出检测（方法2：在栈顶和栈底填充魔术数字，最耗一点点时间，但最精确） */
 // #define configCHECK_FOR_STACK_OVERFLOW       2

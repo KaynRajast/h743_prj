@@ -1,66 +1,50 @@
-h743_prj\main.o: ../Core/Src/main.c
-h743_prj\main.o: ../Core/Inc/main.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
-h743_prj\main.o: ../Core/Inc/stm32h7xx_hal_conf.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h
-h743_prj\main.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h
-h743_prj\main.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h
-h743_prj\main.o: ../Drivers/CMSIS/Include/core_cm7.h
-h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
-h743_prj\main.o: ../Drivers/CMSIS/Include/cmsis_version.h
-h743_prj\main.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
-h743_prj\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-h743_prj\main.o: ../Drivers/CMSIS/Include/mpu_armv7.h
-h743_prj\main.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
-h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_exti.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hsem.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_iwdg.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_lptim.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
-h743_prj\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-h743_prj\main.o: ../Core/Inc/FreeRTOSConfig.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
-h743_prj\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-h743_prj\main.o: ../Core/Inc/iwdg.h
-h743_prj\main.o: ../Core/Inc/lptim.h
-h743_prj\main.o: ../Core/Inc/tim.h
-h743_prj\main.o: ../Core/Inc/usart.h
-h743_prj\main.o: ../Core/Inc/gpio.h
-h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
-h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
-h743_prj\main.o: ../Core/Inc/test_api.h
-h743_prj\main.o: ../cm_backtrace/cm_backtrace.h
-h743_prj\main.o: ../cm_backtrace/cmb_def.h
-h743_prj\main.o: ../cm_backtrace/cmb_cfg.h
-h743_prj\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+h743_prj/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
+  ..\Core\Inc\stm32h7xx_hal_conf.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_def.h \
+  ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h \
+  ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h743xx.h \
+  ..\Drivers\CMSIS\Include\core_cm7.h \
+  ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_dma.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_dma_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_mdma.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_exti.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_cortex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_flash.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_flash_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hsem.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_i2c.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_i2c_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_iwdg.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_lptim.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pwr.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pwr_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim_ex.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
+  ..\Core\Inc\FreeRTOSConfig.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F\portmacro.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
+  ..\Core\Inc\dma.h ..\Core\Inc\iwdg.h ..\Core\Inc\lptim.h \
+  ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
+  ..\Core\Inc\test_api.h ..\cm_backtrace\cm_backtrace.h \
+  ..\cm_backtrace\cmb_def.h ..\cm_backtrace\cmb_cfg.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\stream_buffer.h

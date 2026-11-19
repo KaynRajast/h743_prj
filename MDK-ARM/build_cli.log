@@ -1,0 +1,456 @@
+*** Using Compiler 'V6.22', folder: 'C:\Program Files (x86)\Keil_v5\ARM\ARMCLANG\Bin'
+Rebuild target 'h743_prj'
+assembling startup_stm32h743xx.s...
+compiling test_api.c...
+compiling main.c...
+compiling gpio.c...
+compiling freertos.c...
+compiling dma.c...
+compiling iwdg.c...
+compiling lptim.c...
+compiling tim.c...
+compiling usart.c...
+compiling stm32h7xx_it.c...
+compiling stm32h7xx_hal_msp.c...
+compiling stm32h7xx_hal_timebase_tim.c...
+compiling stm32h7xx_hal_cortex.c...
+compiling stm32h7xx_hal_tim_ex.c...
+compiling stm32h7xx_hal_tim.c...
+compiling stm32h7xx_hal_rcc.c...
+compiling stm32h7xx_hal_rcc_ex.c...
+compiling stm32h7xx_hal_flash.c...
+compiling stm32h7xx_hal_flash_ex.c...
+compiling stm32h7xx_hal_gpio.c...
+compiling stm32h7xx_hal_hsem.c...
+compiling stm32h7xx_hal_dma_ex.c...
+compiling stm32h7xx_hal_dma.c...
+compiling stm32h7xx_hal_mdma.c...
+compiling stm32h7xx_hal_pwr.c...
+compiling stm32h7xx_hal_pwr_ex.c...
+compiling stm32h7xx_hal.c...
+compiling stm32h7xx_hal_i2c_ex.c...
+compiling stm32h7xx_hal_exti.c...
+compiling stm32h7xx_hal_iwdg.c...
+compiling stm32h7xx_hal_i2c.c...
+compiling stm32h7xx_hal_lptim.c...
+compiling system_stm32h7xx.c...
+compiling stm32h7xx_hal_uart_ex.c...
+compiling croutine.c...
+compiling stm32h7xx_hal_uart.c...
+../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c(627): warning: implicit conversion from 'unsigned long' to 'TickType_t' (aka 'unsigned short') changes value from 33554432 to 0 [-Wconstant-conversion]
+  627 |                         vTaskRemoveFromUnorderedEventList( pxTasksWaitingForBits->xListEnd.pxNext, eventUNBLOCKED_DUE_TO_BIT_SET );
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c(58): note: expanded from macro 'eventUNBLOCKED_DUE_TO_BIT_SET'
+   58 |         #define eventUNBLOCKED_DUE_TO_BIT_SET   0x02000000UL
+      |                                                 ^~~~~~~~~~~~
+1 warning generated.
+compiling event_groups.c...
+compiling list.c...
+compiling stream_buffer.c...
+compiling queue.c...
+compiling timers.c...
+compiling tasks.c...
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c(482): warning: implicit conversion from 'unsigned int' to 'TickType_t' (aka 'unsigned short') changes value from 4294967295 to 65535 [-Wconstant-conversion]
+  482 |     if ((xTimerDelete(timer_id, osWaitForever )) != pdPASS) {
+      |          ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS\cmsis_os.h(185): note: expanded from macro 'osWaitForever'
+  185 | #define osWaitForever     0xFFFFFFFF     ///< wait forever timeout value
+      |                           ^~~~~~~~~~
+../Middlewares/Third_Party/FreeRTOS/Source/include\timers.h(664): note: expanded from macro 'xTimerDelete'
+  664 | #define xTimerDelete( xTimer, xTicksToWait ) xTimerGenericCommand( ( xTimer ), tmrCOMMAND_DELETE, 0U, NULL, ( xTicksToWait ) )
+      |                                              ~~~~~~~~~~~~~~~~~~~~                                             ^~~~~~~~~~~~
+1 warning generated.
+compiling cmsis_os.c...
+compiling port.c...
+compiling heap_4.c...
+../cm_backtrace/cm_backtrace.c(170): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  170 |         cmb_println(print_info[PRINT_MAIN_STACK_CFG_ERROR]);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(170): note: treat the string as an argument to avoid this
+  170 |         cmb_println(print_info[PRINT_MAIN_STACK_CFG_ERROR]);
+      |                     ^
+      |                     "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(280): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  280 |     cmb_println(print_info[PRINT_THREAD_STACK_INFO]);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(280): note: treat the string as an argument to avoid this
+  280 |     cmb_println(print_info[PRINT_THREAD_STACK_INFO]);
+      |                 ^
+      |                 "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(282): warning: format specifies type 'unsigned int' but the argument has type 'uint32_t *' (aka 'unsigned int *') [-Wformat]
+  282 |         cmb_println("  addr: %08x    data: %08x", stack_pointer, *stack_pointer);
+      |                              ~~~~                 ^~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(426): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  426 |         cmb_println(print_info[PRINT_CALL_STACK_ERR]);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(426): note: treat the string as an argument to avoid this
+  426 |         cmb_println(print_info[PRINT_CALL_STACK_ERR]);
+      |                     ^
+      |                     "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(449): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  449 |         cmb_println(print_info[PRINT_ASSERT_ON_HANDLER]);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(449): note: treat the string as an argument to avoid this
+  449 |         cmb_println(print_info[PRINT_ASSERT_ON_HANDLER]);
+      |                     ^
+      |                     "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(485): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  485 |         cmb_println(print_info[PRINT_HFSR_VECTBL]);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(485): note: treat the string as an argument to avoid this
+  485 |         cmb_println(print_info[PRINT_HFSR_VECTBL]);
+      |                     ^
+      |                     "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(491): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  491 |                 cmb_println(print_info[PRINT_MFSR_IACCVIOL]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(491): note: treat the string as an argument to avoid this
+  491 |                 cmb_println(print_info[PRINT_MFSR_IACCVIOL]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(494): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  494 |                 cmb_println(print_info[PRINT_MFSR_DACCVIOL]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(494): note: treat the string as an argument to avoid this
+  494 |                 cmb_println(print_info[PRINT_MFSR_DACCVIOL]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(497): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  497 |                 cmb_println(print_info[PRINT_MFSR_MUNSTKERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(497): note: treat the string as an argument to avoid this
+  497 |                 cmb_println(print_info[PRINT_MFSR_MUNSTKERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(500): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  500 |                 cmb_println(print_info[PRINT_MFSR_MSTKERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(500): note: treat the string as an argument to avoid this
+  500 |                 cmb_println(print_info[PRINT_MFSR_MSTKERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(506): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  506 |                 cmb_println(print_info[PRINT_MFSR_MLSPERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(506): note: treat the string as an argument to avoid this
+  506 |                 cmb_println(print_info[PRINT_MFSR_MLSPERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(519): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  519 |                 cmb_println(print_info[PRINT_BFSR_IBUSERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(519): note: treat the string as an argument to avoid this
+  519 |                 cmb_println(print_info[PRINT_BFSR_IBUSERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(522): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  522 |                 cmb_println(print_info[PRINT_BFSR_PRECISERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(522): note: treat the string as an argument to avoid this
+  522 |                 cmb_println(print_info[PRINT_BFSR_PRECISERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(525): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  525 |                 cmb_println(print_info[PRINT_BFSR_IMPREISERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(525): note: treat the string as an argument to avoid this
+  525 |                 cmb_println(print_info[PRINT_BFSR_IMPREISERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(528): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  528 |                 cmb_println(print_info[PRINT_BFSR_UNSTKERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(528): note: treat the string as an argument to avoid this
+  528 |                 cmb_println(print_info[PRINT_BFSR_UNSTKERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(531): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  531 |                 cmb_println(print_info[PRINT_BFSR_STKERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(531): note: treat the string as an argument to avoid this
+  531 |                 cmb_println(print_info[PRINT_BFSR_STKERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(537): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  537 |                 cmb_println(print_info[PRINT_BFSR_LSPERR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(537): note: treat the string as an argument to avoid this
+  537 |                 cmb_println(print_info[PRINT_BFSR_LSPERR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(551): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  551 |                 cmb_println(print_info[PRINT_UFSR_UNDEFINSTR]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(551): note: treat the string as an argument to avoid this
+  551 |                 cmb_println(print_info[PRINT_UFSR_UNDEFINSTR]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(554): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  554 |                 cmb_println(print_info[PRINT_UFSR_INVSTATE]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(554): note: treat the string as an argument to avoid this
+  554 |                 cmb_println(print_info[PRINT_UFSR_INVSTATE]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(557): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  557 |                 cmb_println(print_info[PRINT_UFSR_INVPC]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(557): note: treat the string as an argument to avoid this
+  557 |                 cmb_println(print_info[PRINT_UFSR_INVPC]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(560): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  560 |                 cmb_println(print_info[PRINT_UFSR_NOCP]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(560): note: treat the string as an argument to avoid this
+  560 |                 cmb_println(print_info[PRINT_UFSR_NOCP]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(568): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  568 |                 cmb_println(print_info[PRINT_UFSR_UNALIGNED]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(568): note: treat the string as an argument to avoid this
+  568 |                 cmb_println(print_info[PRINT_UFSR_UNALIGNED]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(571): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  571 |                 cmb_println(print_info[PRINT_UFSR_DIVBYZERO0]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(571): note: treat the string as an argument to avoid this
+  571 |                 cmb_println(print_info[PRINT_UFSR_DIVBYZERO0]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(579): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  579 |                 cmb_println(print_info[PRINT_DFSR_HALTED]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(579): note: treat the string as an argument to avoid this
+  579 |                 cmb_println(print_info[PRINT_DFSR_HALTED]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(582): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  582 |                 cmb_println(print_info[PRINT_DFSR_BKPT]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(582): note: treat the string as an argument to avoid this
+  582 |                 cmb_println(print_info[PRINT_DFSR_BKPT]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(585): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  585 |                 cmb_println(print_info[PRINT_DFSR_DWTTRAP]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(585): note: treat the string as an argument to avoid this
+  585 |                 cmb_println(print_info[PRINT_DFSR_DWTTRAP]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(588): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  588 |                 cmb_println(print_info[PRINT_DFSR_VCATCH]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(588): note: treat the string as an argument to avoid this
+  588 |                 cmb_println(print_info[PRINT_DFSR_VCATCH]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(591): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  591 |                 cmb_println(print_info[PRINT_DFSR_EXTERNAL]);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(591): note: treat the string as an argument to avoid this
+  591 |                 cmb_println(print_info[PRINT_DFSR_EXTERNAL]);
+      |                             ^
+      |                             "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(645): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  645 |         cmb_println(print_info[PRINT_FAULT_ON_HANDLER]);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(645): note: treat the string as an argument to avoid this
+  645 |         cmb_println(print_info[PRINT_FAULT_ON_HANDLER]);
+      |                     ^
+      |                     "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+../cm_backtrace/cm_backtrace.c(687): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  687 |         cmb_println(print_info[PRINT_REGS_TITLE]);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^~~~~~~~~~~
+../cm_backtrace/cm_backtrace.c(687): note: treat the string as an argument to avoid this
+  687 |         cmb_println(print_info[PRINT_REGS_TITLE]);
+      |                     ^
+      |                     "%s", 
+../cm_backtrace\cmb_cfg.h(36): note: expanded from macro 'cmb_println'
+   36 | #define cmb_println(...)               printf(__VA_ARGS__);printf("\r\n")/* e.g., printf(__VA_ARGS__);printf("\r\n")  or  SEGGER_RTT_printf(0, __VA_ARGS__);SEGGER_RTT_WriteString(0, "\r\n")  */
+      |                                               ^
+30 warnings generated.
+compiling cm_backtrace.c...
+assembling cmb_fault.S...
+linking...
+Program Size: Code=34880 RO-data=2688 RW-data=24 ZI-data=20032  
+FromELF: creating hex file...
+"h743_prj\h743_prj.axf" - 0 Error(s), 32 Warning(s).
+Build Time Elapsed:  00:00:16

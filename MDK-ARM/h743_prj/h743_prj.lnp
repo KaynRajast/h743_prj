@@ -1,9 +1,10 @@
---cpu Cortex-M7.fp.dp
+--cpu Cortex-M7.fp.sp
 "h743_prj\startup_stm32h743xx.o"
 "h743_prj\test_api.o"
 "h743_prj\main.o"
 "h743_prj\gpio.o"
 "h743_prj\freertos.o"
+"h743_prj\dma.o"
 "h743_prj\iwdg.o"
 "h743_prj\lptim.o"
 "h743_prj\tim.o"

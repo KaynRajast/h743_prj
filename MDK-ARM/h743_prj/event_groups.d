@@ -1,15 +1,13 @@
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
-h743_prj\event_groups.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-h743_prj\event_groups.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
-h743_prj\event_groups.o: C:\Program Files (x86)\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
-h743_prj\event_groups.o: ../Core/Inc/FreeRTOSConfig.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
-h743_prj\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+h743_prj/event_groups.o: \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\event_groups.c \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
+  ..\Core\Inc\FreeRTOSConfig.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F\portmacro.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h
