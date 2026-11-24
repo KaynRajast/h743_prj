@@ -48,7 +48,11 @@
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 128 ];
+osStaticThreadDef_t defaultTaskControlBlock;
 osMessageQId uartQueueHandle;
+uint8_t uartQueueBuffer[ 128 * 1 ];
+osStaticMessageQDef_t uartQueueControlBlock;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -128,7 +132,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the queue(s) */
   /* definition and creation of uartQueue */
-  osMessageQDef(uartQueue, 128, 1);
+  osMessageQStaticDef(uartQueue, 128, 1, uartQueueBuffer, &uartQueueControlBlock);
   uartQueueHandle = osMessageCreate(osMessageQ(uartQueue), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
@@ -139,7 +143,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128, defaultTaskBuffer, &defaultTaskControlBlock);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */

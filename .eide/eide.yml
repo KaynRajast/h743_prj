@@ -115,7 +115,8 @@ targets:
         - .cmsis/include
         - MDK-ARM/RTE/_h743_prj
       libList: []
-    excludeList: []
+    excludeList:
+      - <virtual_root>/Middlewares/FreeRTOS/heap_4.c
     settings:
       debugger: cortex-debug
     toolchain: AC6

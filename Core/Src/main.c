@@ -20,7 +20,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "dma.h"
-#include "iwdg.h"
 #include "lptim.h"
 #include "tim.h"
 #include "usart.h"
@@ -42,16 +41,21 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+/* 栈深度 */
+#define TASK1_STACK_SIZE 256
+StackType_t Task1Stack[TASK1_STACK_SIZE];    /* 栈空间 */
+StaticTask_t Task1TCB;    /* 任务控制块 */
+TaskHandle_t Task1Handle = NULL;   /* 任务句柄 */
+
+/* 空闲任务 */
+// #define IDLE_STACK_SIZE configMINIMAL_STACK_SIZE
+// StackType_t IdleStack[IDLE_STACK_SIZE];
+// StaticTask_t IdleTCB;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-// 定义缓冲区句柄
-StreamBufferHandle_t xUartStreamBuffer;
-// dma接收缓存
-#define UART_RX_BUFF_SIZE    256
-uint8_t rx_buffer[UART_RX_BUFF_SIZE] /* __attribute__((section(".RAM_D2"))) */;
-extern DMA_HandleTypeDef hdma_usart2_rx;
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -70,8 +74,7 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-void Task_UartProcess(void *pvParameters);
-
+void Task1(void *Parameters);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -115,24 +118,20 @@ int main(void)
   MX_TIM6_Init();
   MX_USART2_UART_Init();
   MX_LPTIM1_Init();
-  // MX_IWDG1_Init();
   /* USER CODE BEGIN 2 */
   // 初始化cmbacktrace
   cm_backtrace_init("h743_prj", "v1.0", "v1011");
-
   printf("System power on\r\n");
 
-  /* 创建缓冲区 */
-  xUartStreamBuffer = xStreamBufferCreate(512, 1);
-
-  if (xUartStreamBuffer != NULL)
-  {
-    xTaskCreate(Task_UartProcess, "uartpro", 512, NULL, 2, NULL);
-
-    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, rx_buffer, UART_RX_BUFF_SIZE);
-    __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
-  }
-
+  Task1Handle = xTaskCreateStatic(
+    Task1,
+    "Task1",
+    TASK1_STACK_SIZE,
+    NULL,
+    2,
+    Task1Stack,
+    &Task1TCB
+  );
 
   /* USER CODE END 2 */
 
@@ -233,55 +232,37 @@ int fputc(int ch, FILE *f)
 }
 #endif
 
-// 串口中断回调函数
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+void Task1(void *Parameters)
 {
-  static uint16_t last_pos = 0;
-
-  if (huart->Instance == USART2)
-  {
-    BaseType_t res = pdFALSE;
-
-    uint16_t pos = (Size == UART_RX_BUFF_SIZE) ? 0U : Size;
-    uint16_t len;
-    
-    if (pos >= last_pos) len = pos - last_pos;
-    else len = UART_RX_BUFF_SIZE - last_pos + pos;
-
-    if (len > 0)
-    {
-      /* SCB_InvalidateDCache_by_Addr((uint32_t*)rx_buffer, UART_RX_BUFF_SIZE); */
-      xStreamBufferSendFromISR(xUartStreamBuffer, &rx_buffer[last_pos], len, &res);
-    }
-
-    last_pos = pos;
-    // /* 开启下一次接收 */
-    // HAL_UARTEx_ReceiveToIdle_DMA(&huart2, rx_buffer, UART_RX_BUFF_SIZE);
-    // /* 关闭半中断 */
-    // __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
-
-    portYIELD_FROM_ISR(res);
-  }
-}
-
-/* 处理串口任务 */
-void Task_UartProcess(void *pvParameters)
-{
-
-  uint8_t process_buffer[256];
-  size_t rx_bytes;
-
   for (;;)
   {
-    rx_bytes = xStreamBufferReceive(xUartStreamBuffer, process_buffer, sizeof(process_buffer) - 1, portMAX_DELAY);
-    if (rx_bytes > 0)
-    {
-      process_buffer[rx_bytes] = '\0';
-      printf("rxbyte: %d: %s\r\n", rx_bytes, process_buffer);
-    }
+    printf("Task is static run.\r\n");
+    vTaskDelay(1000);
   }
 }
 
+
+// void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
+// {
+//   *ppxIdleTaskTCBBuffer = &IdleTCB;
+//   *ppxIdleTaskStackBuffer = IdleStack;
+//   *pulIdleTaskStackSize = IDLE_STACK_SIZE;
+// }
+
+// #if (configUSER_TIMERS == 1)
+
+// #define TIMER_TASK_STACK_SIZE    configTIMER_TASK_STACK_DEPTH
+// StackType_t TimerStack[TIMER_TASK_STACK_SIZE];
+// StaticTask_t TimerTCB;
+
+// /* GetTimerTaskMemory prototype (linked to static allocation support) */
+// void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer, uint32_t *pulTimerTaskStackSize )
+// {
+//   *ppxTimerTaskTCBBuffer = &TimerTCB;
+//   *ppxTimerTaskStackBuffer = TimerStack;
+//   *pulTimerTaskStackSize = TIMER_TASK_STACK_SIZE;
+// }
+// #endif
 
 /* USER CODE END 4 */
 

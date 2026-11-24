@@ -21,7 +21,6 @@ h743_prj/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hsem.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_i2c.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_i2c_ex.h \
-  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_iwdg.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_lptim.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pwr.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pwr_ex.h \
@@ -43,8 +42,8 @@ h743_prj/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
-  ..\Core\Inc\dma.h ..\Core\Inc\iwdg.h ..\Core\Inc\lptim.h \
-  ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
-  ..\Core\Inc\test_api.h ..\cm_backtrace\cm_backtrace.h \
-  ..\cm_backtrace\cmb_def.h ..\cm_backtrace\cmb_cfg.h \
+  ..\Core\Inc\dma.h ..\Core\Inc\lptim.h ..\Core\Inc\tim.h \
+  ..\Core\Inc\usart.h ..\Core\Inc\gpio.h ..\Core\Inc\test_api.h \
+  ..\cm_backtrace\cm_backtrace.h ..\cm_backtrace\cmb_def.h \
+  ..\cm_backtrace\cmb_cfg.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\stream_buffer.h
